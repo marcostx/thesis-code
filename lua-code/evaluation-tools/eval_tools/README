@@ -1,0 +1,80 @@
+This directory contains the toolkit for evaluating the results in the
+MediaEval 2015 Affective Impact of Movies Task. The procedure and
+included files are explained below, separately for the two subtasks:
+violence and affect.
+
+* Violence
+
+The official evaluation measure for violence is average precision. For
+calculating the measures we use the trec_eval 8.1 tool, which can be
+downloaded from here:
+
+http://trec.nist.gov/trec_eval/
+
+(also the "latest" version seems to produce the same numbers, but
+version 8.1 is the official one for this task.)
+
+The series of commands to download and compile trec_eval on Unix-based
+systems are as follows:
+
+    wget http://trec.nist.gov/trec_eval/trec_eval.8.1.tar.gz
+    tar xf trec_eval.8.1.tar.gz
+    cd trec_eval.8.1
+    make
+
+The "make" command may show some warnings, but these are not critical.
+After this an executable file named "trec_eval" will be produced. This
+can be copied into the evaluation directory for convenience.
+
+In order to use trec_eval you first need to transform the official
+result format of the task into trec_eval format using our Python-based
+conversion tool: results_to_trec.py. This program takes as argument
+one or more results files to convert, and produces for each of them a
+new file in the trec_eval format with the ".trec" ending appended.
+
+After this you can calculate the evaluation measures provided by
+trec_eval, by pointing to the ground truth file and the trec results
+file to be evaluated. This distribution includes the file
+violence-devset.qrel, which is the ground truth file for the devset in
+the qrel format required by trec_eval. The ground truth for the
+testset, will naturally not be released until after the submission
+deadline.
+
+The official measure is the one designated as "map" in trec_eval for
+"mean average precision" (although, since we have only one query
+"violence" it not really a mean.)
+
+As a baseline we also include the me15am_TeamRandom_violence_*.txt
+files, which are random runs that assume the apriori probability of
+violence from the development set, and where *=devset is for the
+development set and *=testset for the test set.
+
+An example of the series of commands required to evaluate a results
+file on a Unix-based system (e.g. Linux or Mac OS X) is as follows:
+
+    ./results_to_trec.py me15am_TeamRandom_violence_devset.txt
+    ./trec_eval violence-devset.qrel me15am_TeamRandom_violence_devset.txt.trec
+
+
+* Affect
+
+The official evaluation measure for the induced affect task is global
+accuracy, i.e. the proportion of the video clips that have been
+assigned to the correct class (out of three). The evaluation measure
+is calculated separately for valence and arousal.
+
+The measure is calculated using our Python-based script:
+affect_eval.py. This program takes as argument one or more results
+files to evaluate. You also need to specify the ground truth file with
+the "-g" option.  For example:
+
+    ./affect_eval.py -g affect-devset-groundtruth.txt me15am_TeamRandom_affect_devset.txt
+
+(Actually it will use "affect-devset-groundtruth.txt" by default
+without the "-g" option.) The affect-devset-groundtruth.txt file is
+the ground truth file for the devset in the correct format.  
+
+As a baseline we also include the me15am_TeamRandom_affect_*.txt
+files, which are random runs that assume the apriori probability of
+the affect classes from the development set, and where *=devset is for
+the development set and *=testset for the test set.

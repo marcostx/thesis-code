@@ -1,0 +1,483 @@
+run 1:
+
+num_q                 	all	1
+num_ret               	all	4738
+num_rel               	all	230
+num_rel_ret           	all	228
+map                   	all	0.0887
+gm_map                	all	0.0887
+Rprec                 	all	0.1391
+bpref                 	all	0.0659
+recip_rank            	all	0.0769
+iprec_at_recall_0.00  	all	0.1391
+iprec_at_recall_0.10  	all	0.1391
+iprec_at_recall_0.20  	all	0.1237
+iprec_at_recall_0.30  	all	0.1124
+iprec_at_recall_0.40  	all	0.1037
+iprec_at_recall_0.50  	all	0.0833
+iprec_at_recall_0.60  	all	0.0761
+iprec_at_recall_0.70  	all	0.0727
+iprec_at_recall_0.80  	all	0.0663
+iprec_at_recall_0.90  	all	0.0621
+iprec_at_recall_1.00  	all	0.0000
+P_5                   	all	0.0000
+P_10                  	all	0.0000
+P_15                  	all	0.0667
+P_20                  	all	0.0500
+P_30                  	all	0.0667
+P_100                 	all	0.1100
+P_200                 	all	0.1250
+P_500                 	all	0.1120
+P_1000                	all	0.0960
+
+
+run 2:
+dropout 0.5
+lstm_size_tagm 64
+lstm_size_attention 128
+iteracoes 8000
+
+runid                 	all	mediaeval_test_predictions_correct2.txt
+num_q                 	all	1
+num_ret               	all	4738
+num_rel               	all	230
+num_rel_ret           	all	228
+map                   	all	0.1208
+gm_map                	all	0.1208
+Rprec                 	all	0.1696
+bpref                 	all	0.1115
+recip_rank            	all	1.0000
+iprec_at_recall_0.00  	all	1.0000
+iprec_at_recall_0.10  	all	0.2353
+iprec_at_recall_0.20  	all	0.1745
+iprec_at_recall_0.30  	all	0.1434
+iprec_at_recall_0.40  	all	0.1216
+iprec_at_recall_0.50  	all	0.0906
+iprec_at_recall_0.60  	all	0.0800
+iprec_at_recall_0.70  	all	0.0689
+iprec_at_recall_0.80  	all	0.0647
+iprec_at_recall_0.90  	all	0.0577
+iprec_at_recall_1.00  	all	0.0000
+P_5                   	all	0.4000
+P_10                  	all	0.2000
+P_15                  	all	0.2000
+P_20                  	all	0.2000
+P_30                  	all	0.2000
+P_100                 	all	0.2300
+P_200                 	all	0.1750
+P_500                 	all	0.1400
+P_1000                	all	0.1040
+
+
+run_6
+optimizador : adam
+
+runid                 	all	mediaeval_test_predictions_correct_adam.txt
+num_q                 	all	1
+num_ret               	all	4738
+num_rel               	all	230
+num_rel_ret           	all	228
+map                   	all	0.1248
+gm_map                	all	0.1248
+Rprec                 	all	0.1783
+bpref                 	all	0.1171
+recip_rank            	all	0.2000
+iprec_at_recall_0.00  	all	0.6364
+iprec_at_recall_0.10  	all	0.2124
+iprec_at_recall_0.20  	all	0.1556
+iprec_at_recall_0.30  	all	0.1194
+iprec_at_recall_0.40  	all	0.1152
+iprec_at_recall_0.50  	all	0.1044
+iprec_at_recall_0.60  	all	0.0897
+iprec_at_recall_0.70  	all	0.0775
+iprec_at_recall_0.80  	all	0.0694
+iprec_at_recall_0.90  	all	0.0610
+iprec_at_recall_1.00  	all	0.0000
+P_5                   	all	0.2000
+P_10                  	all	0.6000
+P_15                  	all	0.4667
+P_20                  	all	0.4000
+P_30                  	all	0.3667
+P_100                 	all	0.2100
+P_200                 	all	0.1850
+P_500                 	all	0.1180
+P_1000                	all	0.1070
+
+run_7
+vgg-19 fps 15, seq_lem=100
+
+runid                 	all	mediaeval_test_predictions_correct_vgg_fps15.txt
+num_q                 	all	1
+num_ret               	all	4746
+num_rel               	all	230
+num_rel_ret           	all	228
+map                   	all	0.0917
+gm_map                	all	0.0917
+Rprec                 	all	0.1348
+bpref                 	all	0.0785
+recip_rank            	all	0.2000
+iprec_at_recall_0.00  	all	0.2581
+iprec_at_recall_0.10  	all	0.1422
+iprec_at_recall_0.20  	all	0.1267
+iprec_at_recall_0.30  	all	0.1092
+iprec_at_recall_0.40  	all	0.0930
+iprec_at_recall_0.50  	all	0.0789
+iprec_at_recall_0.60  	all	0.0708
+iprec_at_recall_0.70  	all	0.0660
+iprec_at_recall_0.80  	all	0.0632
+iprec_at_recall_0.90  	all	0.0599
+iprec_at_recall_1.00  	all	0.0000
+P_5                   	all	0.2000
+P_10                  	all	0.2000
+P_15                  	all	0.1333
+P_20                  	all	0.1500
+P_30                  	all	0.2333
+P_100                 	all	0.1400
+P_200                 	all	0.1350
+P_500                 	all	0.1100
+P_1000                	all	0.0920
+
+
+run_8
+mfcc , seq_lem=100
+
+runid                 	all	mediaeval_test_predictions_correct_mfcc.txt
+num_q                 	all	1
+num_ret               	all	4754
+num_rel               	all	230
+num_rel_ret           	all	229
+map                   	all	0.0483
+gm_map                	all	0.0483
+Rprec                 	all	0.0435
+bpref                 	all	0.0083
+recip_rank            	all	0.0370
+iprec_at_recall_0.00  	all	0.0684
+iprec_at_recall_0.10  	all	0.0629
+iprec_at_recall_0.20  	all	0.0629
+iprec_at_recall_0.30  	all	0.0629
+iprec_at_recall_0.40  	all	0.0629
+iprec_at_recall_0.50  	all	0.0629
+iprec_at_recall_0.60  	all	0.0629
+iprec_at_recall_0.70  	all	0.0629
+iprec_at_recall_0.80  	all	0.0604
+iprec_at_recall_0.90  	all	0.0604
+iprec_at_recall_1.00  	all	0.0000
+P_5                   	all	0.0000
+P_10                  	all	0.0000
+P_15                  	all	0.0000
+P_20                  	all	0.0000
+P_30                  	all	0.0333
+P_100                 	all	0.0100
+P_200                 	all	0.0150
+P_500                 	all	0.0380
+P_1000                	all	0.0380
+
+
+run_10
+mfcc , seq_lem=400, optimizer= adam, lr=0.0001
+runid                 	all	mediaeval_test_predictions_correct_mfcc2.txt
+num_q                 	all	1
+num_ret               	all	4754
+num_rel               	all	230
+num_rel_ret           	all	230
+map                   	all	0.0338
+gm_map                	all	0.0338
+Rprec                 	all	0.0304
+bpref                 	all	0.0150
+recip_rank            	all	0.0400
+iprec_at_recall_0.00  	all	0.0485
+iprec_at_recall_0.10  	all	0.0485
+iprec_at_recall_0.20  	all	0.0485
+iprec_at_recall_0.30  	all	0.0485
+iprec_at_recall_0.40  	all	0.0485
+iprec_at_recall_0.50  	all	0.0485
+iprec_at_recall_0.60  	all	0.0485
+iprec_at_recall_0.70  	all	0.0485
+iprec_at_recall_0.80  	all	0.0485
+iprec_at_recall_0.90  	all	0.0485
+iprec_at_recall_1.00  	all	0.0484
+P_5                   	all	0.0000
+P_10                  	all	0.0000
+P_15                  	all	0.0000
+P_20                  	all	0.0000
+P_30                  	all	0.0333
+P_100                 	all	0.0100
+P_200                 	all	0.0300
+P_500                 	all	0.0260
+P_1000                	all	0.0140
+
+
+run_9
+vgg-19, fps=15, seq_lem=100, optimizer= adam, lr=0.0001
+
+num_q                 	all	1
+num_ret               	all	4744
+num_rel               	all	230
+num_rel_ret           	all	228
+map                   	all	0.1312
+gm_map                	all	0.1312
+Rprec                 	all	0.1435
+bpref                 	all	0.1014
+recip_rank            	all	1.0000
+iprec_at_recall_0.00  	all	1.0000
+iprec_at_recall_0.10  	all	0.1949
+iprec_at_recall_0.20  	all	0.1398
+iprec_at_recall_0.30  	all	0.1331
+iprec_at_recall_0.40  	all	0.1242
+iprec_at_recall_0.50  	all	0.1095
+iprec_at_recall_0.60  	all	0.0971
+iprec_at_recall_0.70  	all	0.0838
+iprec_at_recall_0.80  	all	0.0757
+iprec_at_recall_0.90  	all	0.0649
+iprec_at_recall_1.00  	all	0.0000
+P_5                   	all	0.6000
+P_10                  	all	0.4000
+P_15                  	all	0.4667
+P_20                  	all	0.4000
+P_30                  	all	0.3000
+P_100                 	all	0.2100
+P_200                 	all	0.1550
+P_500                 	all	0.1340
+P_1000                	all	0.1110
+
+
+run_11
+vgg-19, fps=15, seq_lem=100, optimizer= adam, lr=0.0001, model=tsam
+
+runid                 	all	mediaeval_test_predictions_correct_new.txt
+num_q                 	all	1
+num_ret               	all	4746
+num_rel               	all	230
+num_rel_ret           	all	228
+map                   	all	0.1075
+gm_map                	all	0.1075
+Rprec                 	all	0.1957
+bpref                 	all	0.1317
+recip_rank            	all	1.0000
+iprec_at_recall_0.00  	all	1.0000
+iprec_at_recall_0.10  	all	0.2614
+iprec_at_recall_0.20  	all	0.1967
+iprec_at_recall_0.30  	all	0.0663
+iprec_at_recall_0.40  	all	0.0481
+iprec_at_recall_0.50  	all	0.0481
+iprec_at_recall_0.60  	all	0.0481
+iprec_at_recall_0.70  	all	0.0481
+iprec_at_recall_0.80  	all	0.0481
+iprec_at_recall_0.90  	all	0.0481
+iprec_at_recall_1.00  	all	0.0000
+P_5                   	all	0.6000
+P_10                  	all	0.4000
+P_15                  	all	0.4667
+P_20                  	all	0.3500
+P_30                  	all	0.2667
+P_100                 	all	0.2500
+P_200                 	all	0.2050
+P_500                 	all	0.1240
+P_1000                	all	0.0660
+
+
+run 12
+hog, fps=15, seq_lem=100, optimizer= rmsprop, lr=0.0001, model=tagm
+
+unid                 	all	mediaeval_test_predictions_correct_hog.txt
+num_q                 	all	1
+num_ret               	all	4746
+num_rel               	all	230
+num_rel_ret           	all	228
+map                   	all	0.0562
+gm_map                	all	0.0562
+Rprec                 	all	0.0652
+bpref                 	all	0.0322
+recip_rank            	all	0.0294
+iprec_at_recall_0.00  	all	0.0789
+iprec_at_recall_0.10  	all	0.0648
+iprec_at_recall_0.20  	all	0.0648
+iprec_at_recall_0.30  	all	0.0648
+iprec_at_recall_0.40  	all	0.0648
+iprec_at_recall_0.50  	all	0.0648
+iprec_at_recall_0.60  	all	0.0608
+iprec_at_recall_0.70  	all	0.0559
+iprec_at_recall_0.80  	all	0.0537
+iprec_at_recall_0.90  	all	0.0500
+iprec_at_recall_1.00  	all	0.0000
+P_5                   	all	0.0000
+P_10                  	all	0.0000
+P_15                  	all	0.0000
+P_20                  	all	0.0000
+P_30                  	all	0.0000
+P_100                 	all	0.0500
+P_200                 	all	0.0700
+P_500                 	all	0.0560
+P_1000                	all	0.0520
+
+
+run 13
+hog, fps=15, seq_lem=100, optimizer= adam, lr=0.0001, model=tagm
+runid                 	all	eval_tools/reesults_hog.txt
+num_q                 	all	1
+num_ret               	all	4746
+num_rel               	all	230
+num_rel_ret           	all	228
+map                   	all	0.0595
+gm_map                	all	0.0595
+Rprec                 	all	0.0783
+bpref                 	all	0.0384
+recip_rank            	all	0.0833
+iprec_at_recall_0.00  	all	0.0833
+iprec_at_recall_0.10  	all	0.0775
+iprec_at_recall_0.20  	all	0.0710
+iprec_at_recall_0.30  	all	0.0642
+iprec_at_recall_0.40  	all	0.0599
+iprec_at_recall_0.50  	all	0.0575
+iprec_at_recall_0.60  	all	0.0575
+iprec_at_recall_0.70  	all	0.0553
+iprec_at_recall_0.80  	all	0.0553
+iprec_at_recall_0.90  	all	0.0528
+iprec_at_recall_1.00  	all	0.0000
+P_5                   	all	0.0000
+P_10                  	all	0.0000
+P_15                  	all	0.0667
+P_20                  	all	0.0500
+P_30                  	all	0.0667
+P_100                 	all	0.0600
+P_200                 	all	0.0800
+P_500                 	all	0.0720
+P_1000                	all	0.0590
+
+run 14
+mfcc, seq_lem=900, optimizer= adam, lr=0.0001, model=tagm
+runid                 	all	reesults_mfcc_900.txt
+num_q                 	all	1
+num_ret               	all	4756
+num_rel               	all	230
+num_rel_ret           	all	230
+map                   	all	0.0492
+gm_map                	all	0.0492
+Rprec                 	all	0.0522
+bpref                 	all	0.0164
+recip_rank            	all	0.0435
+iprec_at_recall_0.00  	all	0.0656
+iprec_at_recall_0.10  	all	0.0656
+iprec_at_recall_0.20  	all	0.0656
+iprec_at_recall_0.30  	all	0.0656
+iprec_at_recall_0.40  	all	0.0656
+iprec_at_recall_0.50  	all	0.0656
+iprec_at_recall_0.60  	all	0.0609
+iprec_at_recall_0.70  	all	0.0514
+iprec_at_recall_0.80  	all	0.0514
+iprec_at_recall_0.90  	all	0.0496
+iprec_at_recall_1.00  	all	0.0489
+P_5                   	all	0.0000
+P_10                  	all	0.0000
+P_15                  	all	0.0000
+P_20                  	all	0.0000
+P_30                  	all	0.0333
+P_100                 	all	0.0100
+P_200                 	all	0.0550
+P_500                 	all	0.0500
+P_1000                	all	0.0280
+
+
+run 15
+hog, fps=15, seq_lem=100, optimizer= adam, lr=0.0001, model=tsam
+
+
+runid                 	all	results_tsam_hog.txt
+num_q                 	all	1
+num_ret               	all	4746
+num_rel               	all	230
+num_rel_ret           	all	228
+map                   	all	0.0463
+gm_map                	all	0.0463
+Rprec                 	all	0.0261
+bpref                 	all	0.0190
+recip_rank            	all	0.0909
+iprec_at_recall_0.00  	all	0.0909
+iprec_at_recall_0.10  	all	0.0510
+iprec_at_recall_0.20  	all	0.0510
+iprec_at_recall_0.30  	all	0.0510
+iprec_at_recall_0.40  	all	0.0510
+iprec_at_recall_0.50  	all	0.0510
+iprec_at_recall_0.60  	all	0.0510
+iprec_at_recall_0.70  	all	0.0510
+iprec_at_recall_0.80  	all	0.0510
+iprec_at_recall_0.90  	all	0.0506
+iprec_at_recall_1.00  	all	0.0000
+P_5                   	all	0.0000
+P_10                  	all	0.0000
+P_15                  	all	0.0667
+P_20                  	all	0.0500
+P_30                  	all	0.0667
+P_100                 	all	0.0500
+P_200                 	all	0.0300
+P_500                 	all	0.0320
+P_1000                	all	0.0430
+
+run 16
+multimodal, vgg+hog, fps=15, seq_lem=100, optimizer= adam, lr=0.0001, model=TAGM
+
+runid                 	all	mediaeval_test_predictions_correct_vgg_hog.txt
+num_q                 	all	1
+num_ret               	all	4737
+num_rel               	all	230
+num_rel_ret           	all	228
+map                   	all	0.0902
+gm_map                	all	0.0902
+Rprec                 	all	0.1130
+bpref                 	all	0.0731
+recip_rank            	all	1.0000
+iprec_at_recall_0.00  	all	1.0000
+iprec_at_recall_0.10  	all	0.1297
+iprec_at_recall_0.20  	all	0.0956
+iprec_at_recall_0.30  	all	0.0956
+iprec_at_recall_0.40  	all	0.0866
+iprec_at_recall_0.50  	all	0.0805
+iprec_at_recall_0.60  	all	0.0753
+iprec_at_recall_0.70  	all	0.0626
+iprec_at_recall_0.80  	all	0.0560
+iprec_at_recall_0.90  	all	0.0542
+iprec_at_recall_1.00  	all	0.0000
+P_5                   	all	0.4000
+P_10                  	all	0.3000
+P_15                  	all	0.2000
+P_20                  	all	0.2500
+P_30                  	all	0.2667
+P_100                 	all	0.1300
+P_200                 	all	0.1250
+P_500                 	all	0.0840
+P_1000                	all	0.0900
+
+
+run 17
+unimodal, incept-v3, fps=15, seq_lem=100, optimizer= adam, lr=0.0001, model=TAGM
+
+runid                 	all	mediaeval_test_predictions_correct_incept.txt
+num_q                 	all	1
+num_ret               	all	4751
+num_rel               	all	230
+num_rel_ret           	all	228
+map                   	all	0.0462
+gm_map                	all	0.0462
+Rprec                 	all	0.0391
+bpref                 	all	0.0179
+recip_rank            	all	0.3333
+iprec_at_recall_0.00  	all	0.3333
+iprec_at_recall_0.10  	all	0.0521
+iprec_at_recall_0.20  	all	0.0492
+iprec_at_recall_0.30  	all	0.0492
+iprec_at_recall_0.40  	all	0.0492
+iprec_at_recall_0.50  	all	0.0492
+iprec_at_recall_0.60  	all	0.0492
+iprec_at_recall_0.70  	all	0.0492
+iprec_at_recall_0.80  	all	0.0492
+iprec_at_recall_0.90  	all	0.0492
+iprec_at_recall_1.00  	all	0.0000
+P_5                   	all	0.2000
+P_10                  	all	0.1000
+P_15                  	all	0.0667
+P_20                  	all	0.0500
+P_30                  	all	0.0667
+P_100                 	all	0.0300
+P_200                 	all	0.0400
+P_500                 	all	0.0480
+P_1000                	all	0.0430

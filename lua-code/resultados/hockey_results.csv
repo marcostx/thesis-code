@@ -1,0 +1,11 @@
+res1;95.10;vgg-19;rmsprop;TAGM
+res2;95.10;vgg-19;adam;TAGM
+res3;95.5;vgg-19;rmsprop;TSAM
+res4;94.9;vgg-19;adam;TSAM
+res5;95.4;resnet;adam;TAGM
+res5;95.1;resnet;rmsprop;TSAM
+res6;94.6;vgg+resnet;adam;TAGM
+res7;95.1;vgg+resnet;rmsprop;TAGM
+res8;95.6;vgg+resnet;rmsprop;TSAM
+res9;86.2;hog;rmsprop;TSAM
+res10;89.8;hog;rmsprop;TAGM

@@ -1,0 +1,310 @@
+Resultados CNN
+
+cnn simples, 2 camadas
+
+base: violentflows
+iterations: 1000
+optimizer: adam
+batch: 20
+dropout: 0.25
+
+split 1 
+Test Accuracy : 	60.416
+total elapsed time:	155.5256960392
+
+split 2
+Test Accuracy : 	64
+total elapsed time:	161.5036630630
+
+split 3
+Test Accuracy : 	54.166666666667
+total elapsed time:	155.24570322037
+
+split 4
+Test Accuracy : 	66
+total elapsed time:	153.71566414833
+
+split 5
+Test Accuracy : 	58
+total elapsed time:	153.766984939
+
+mean 5-fold 
+accuracy 60,514%
+
+
+vgg-19
+split 1 
+Test Accuracy :         64.583333333333
+total elapsed time:     6702.6084859371
+
+split 2
+Test Accuracy :         74
+total elapsed time:     6681.5975458622
+split 3 
+
+Test Accuracy :         66.666666666667
+total elapsed time:     6670.8172931671
+
+split 4
+Test Accuracy :         76
+total elapsed time:     6708.8157501221
+
+
+split 5
+Test Accuracy :         72
+total elapsed time:     6698.2677190304 
+
+
+avg 5 fold cv : 70,6486%
+
+vgg-19 com 2000 iteracoes
+split 1
+Test Accuracy :         66.785400000000
+total elapsed time:     1289.9112834164
+
+split 2
+Test Accuracy :         68
+total elapsed time:     13246.087245941
+
+split 3
+Test Accuracy :         75
+total elapsed time:     13289.03045702
+
+split 4
+Test Accuracy :         74
+total elapsed time:     13348.318500042
+
+split 5 
+Test Accuracy :         72
+total elapsed time:     13234.026609898
+
+avg 5 fold cv : 71,1570%
+
+
+ConvLSTM 
+pretrained on imagenet
+rmsprop
+concatenando as saidas da cnn e dando de entrada para tagm
+
+split 5 
+Test Accuracy :         50
+total elapsed time:     39694.090374947
+
+
+pretrained on imagenet
+adam
+concatenando as saidas da cnn e dando de entrada para tagm
+
+split 5 
+Test Accuracy :         50
+total elapsed time:     35647.462260962
+
+################################################################################
+
+
+pretrained on imagenet
+freezing cnn, using only as a feature extractor
+rmsrop
+concatenando as saidas da cnn e dando de entrada para tagm
+
+split 1 
+Test Accuracy :         77.083333333333
+total elapsed time:     24069.862753153
+
+split 2 
+Test Accuracy :         75
+total elapsed time:     22608.95108223
+split 3 
+Test Accuracy :         70
+total elapsed time:     22526.589768171
+
+split 4 (DL-16)
+Test Accuracy :         70
+total elapsed time:     24084.861013889
+
+split 5 
+Test Accuracy :         80
+total elapsed time:     13115.840807915
+
+avg 5 fold cv : 74,41666%
+
+################################################################################
+
+pretrained on imagenet
+freezing cnn (VGG-16), using only as a feature extractor
+rmsrop
+concatenando as saidas da cnn e dando de entrada para tagm
+split 5 
+Test Accuracy :         56
+total elapsed time:     13309.775467873
+
+pretrained on imagenet
+freezing cnn (VGG-16), using only as a feature extractor
+rmsrop
+learning rate=0.0009
+concatenando as saidas da cnn e dando de entrada para tagm
+split 5 
+Test Accuracy :         50
+total elapsed time:     11236.774575949
+
+
+
+################################################################################
+
+
+pretrained on imagenet
+freezing cnn, using only as a feature extractor
+rmsrop
+concatenando as saidas da cnn e dando de entrada para tagm 
+attention layer (temporal attention)
+
+split 1 
+Test Accuracy :         79.166666666667
+total elapsed time:     23235.953397036
+
+split 2 
+Test Accuracy :         68
+total elapsed time:     23242.218514919
+
+split 3 DL-16
+Test Accuracy :         52.083333333333
+total elapsed time:     13880.091151953
+
+split 4 DL-09
+Test Accuracy :         50
+total elapsed time:     24200.693892956
+
+split 5 DL-09
+Test Accuracy :         50
+total elapsed time:     24165.680360079
+
+avg 5 fold cv : 59,8492
+
+################################################################################
+
+
+
+################################################################################
+
+
+cnn from scratch
+rmsrop
+concatenando as saidas da cnn e dando de entrada para tagm
+attention layer (temporal attention)
+
+split 1
+Test Accuracy :         47.916666666667
+total elapsed time:     43751.616902828
+
+split 2
+Test Accuracy :         50
+total elapsed time:     44024.012501955
+
+split 3
+Test Accuracy :         50
+total elapsed time:     38611.429548979
+
+split 4
+Test Accuracy :         50
+total elapsed time:     38633.429791927
+
+split 5
+Test Accuracy :         50
+total elapsed time:     18803.615354061
+
+avg 5 fold cv : 49,5833%
+
+################################################################################
+
+convRNN (usando vgg19 + nn.LinearRNN)
+rmsprop
+lr=0.0001
+
+split 1
+Test Accuracy :         56.25
+total elapsed time:     18808.155399084
+
+split 2
+Test Accuracy :         72.167744444444
+total elapsed time:     18312.871022847
+
+split 3
+Test Accuracy :         77.083333333333
+total elapsed time:     18942.168255806
+
+split 4
+Test Accuracy :         62
+total elapsed time:     18990.141633987
+
+split 5
+Test Accuracy :         68
+total elapsed time:     18829.910804987
+
+avg 5 fold cv : 69,4 %
+
+
+################################################################################
+
+convRNN (usando vgg19 + nn.LinearRNN)
+avaliando no teste apos algumas iteracoes e salvando os melhores modelos 
+rmsprop
+lr=0.0001
+
+split 1
+
+total average loss of test set: 0.76261145869891
+accuracy:       75
+
+
+################################################################################
+
+vgg-19 com 2000 iteracoes 
+pretrained on ImageNet
+avaliando no teste apos algumas iteracoes e salvando os melhores modelos 
+rmsprop
+lr=0.0001
+split 1
+Test accuracy:       77.083333333333
+total elapsed time:  36199.706413984 
+
+split 2
+Test accuracy:       75
+total elapsed time:  36199.706413984
+split 3
+Test accuracy:       75
+total elapsed time:  36199.706413984
+split 4
+Test accuracy:       72
+total elapsed time:  25674.179425001
+
+split 5 
+Test Accuracy :         74
+total elapsed time:     26672.632164955
+
+avg 5 fold accuracy : 74,6166%
+
+
+################################################################################
+
+pretrained on imagenet
+freezing cnn, using only as a feature extractor
+rmsrop
+concatenando as saidas da cnn e dando de entrada para tagm
+
+split 1 
+accuracy : 75
+
+split 2 
+accuracy : 70
+
+split 3 
+accuracy : 68
+
+split 4 
+dl-09
+accuracy : 68
+
+split 5 
+accuracy :  66
+
+################################################################################
