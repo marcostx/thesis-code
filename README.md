@@ -1,4 +1,4 @@
-Vehicle Detection and Pose Estimation for Autonomous Driving
+Evaluating Attention-Based Models for Violence Classification in Videos
 ------------------------------------------------------------
 **Marcos Teixeira**, Jan 2020
 
