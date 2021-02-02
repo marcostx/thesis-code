@@ -6,3 +6,8 @@ This repository contains source code for my Master's thesis, which describes a s
 
 For details about the method see [PDF with the Master's thesis](https://drive.google.com/file/d/1SfwYSlannkKXnHxuOlJodt2baYoow6-g/view?usp=sharing).
 
+
+### Structure
+The experiments were conducted using two different programming languages. The code for [TAGM model](https://openaccess.thecvf.com/content_cvpr_2017/html/Pei_Temporal_Attention-Gated_Model_CVPR_2017_paper.html) is written in Lua-Torch (**lua-code/** folder). Additionally, the remaining models were implemented using PyTorch & Keras (**python-code/**).
+
+The instructions to run the experiments are included in each folder.
