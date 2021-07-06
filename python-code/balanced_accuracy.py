@@ -11,10 +11,6 @@ def get_violence_videos(file_inp, prediction_list):
     dict_labels = {}
     labels=[]
     preds = []
-    # for line in lines:
-    #     if line.split(" ")[2] in name_set:
-    #         label = int(line.split(" ")[3])
-    #         labels.append(label)
     for line in lines:
         dict_labels[line.split(" ")[2]] = int(line.split(" ")[3])
 
@@ -38,17 +34,7 @@ def main():
     labels, preds = get_violence_videos(labels_test, lines)
 
     acc = balanced_accuracy_score(labels, preds)
-    # print(preds[:1000])
     print("balanced accuracy : {}".format(acc))
-
-    # pred_flow = np.zeros(4729)
-    # y_flow = np.zeros(4729)
-    # y_flow[:len(labels_test)] = 1
-
-    # acc = balanced_accuracy_score(y_flow, pred_flow)
-    # print("balanced accuracy : {}".format(acc))
-
-
 
 
 if __name__ == '__main__':

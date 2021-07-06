@@ -278,8 +278,6 @@ def train(model, optimizer, n_epochs, device, trainloader, testloader, model_dir
 
     tb_writer = init_writer(log_dir)
 
-    # trainloader.dataset.save_videos(tb_writer, mode="train")
-    # testloader.dataset.save_videos(tb_writer, mode="test")
     train_metrics = {}
     test_metrics = {}
     # initialize the early_stopping object
@@ -316,32 +314,6 @@ def train(model, optimizer, n_epochs, device, trainloader, testloader, model_dir
         # torch.save(state, "{}/checkpoint.pth".format(model_dir))
         torch.save(model.state_dict(), "checkpoint.pth")
 
-        # if hasattr(model, 'rcnn') and  hasattr(model.rcnn, 'alpha'):
-        #     for i, alpha in enumerate(model.rcnn.alpha):
-        #         print("coefficients i:", i, torch.squeeze(alpha))
-
-        # if epoch % 10 == 0:
-        #     save_weigths(model, tb_writer, epoch)
-        #     # save_grads(train_metrics['grads'], tb_writer, epoch)
-        #
-        #     if test:
-        #         correct_labels = torch.cat(test_metrics['labels'])
-        #         predict_labels = torch.cat(test_metrics['predicted'])
-        # save_confusion_matrix(correct_labels,
-        #                       predict_labels,
-        #                       labels=trainloader.dataset.classes,
-        #                       normalize=False,
-        #                       title='Confusion_matrix/Test',
-        #                       tb_writer=tb_writer,
-        #                       epoch=epoch)
-
-        # save_confusion_matrix(correct_labels,
-        #                       predict_labels,
-        #                       labels=trainloader.dataset.classes,
-        #                       normalize=True,
-        #                       title='Confusion_matrix/Test-Normalized',
-        #                       tb_writer=tb_writer,
-        #                       epoch=epoch)
 
     if test:
         metrics = {"train": train_metrics, "test": test_metrics}
@@ -351,26 +323,6 @@ def train(model, optimizer, n_epochs, device, trainloader, testloader, model_dir
     print('Finished Training')
 
     print("train finished log path:", log_dir)
-
-    # Saving final confusion matrix
-    # if test:
-    #     correct_labels = torch.cat(test_metrics['labels'])
-    #     predict_labels = torch.cat(test_metrics['predicted'])
-    #     save_confusion_matrix(correct_labels,
-    #                           predict_labels,
-    #                           labels=trainloader.dataset.classes,
-    #                           normalize=False,
-    #                           title='Confusion_matrix/Test-final',
-    #                           tb_writer=tb_writer,
-    #                           epoch=epoch)
-    #
-    #     save_confusion_matrix(correct_labels,
-    #                           predict_labels,
-    #                           labels=trainloader.dataset.classes,
-    #                           normalize=True,
-    #                           title='Confusion_matrix/Test-Normalized-final',
-    #                           tb_writer=tb_writer,
-    #                           epoch=epoch)
 
     tb_writer.close()
 

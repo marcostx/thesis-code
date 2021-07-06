@@ -9,19 +9,12 @@ from collections import OrderedDict
 from efficientnet.tfkeras import EfficientNetB3
 from efficientnet.tfkeras import center_crop_and_resize, preprocess_input
 from tensorflow.keras.applications import ResNet50
-# from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
-# from keras.applications.resnet50 import ResNet50
 from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Input, BatchNormalization
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-# from keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.layers import Dense, GlobalMaxPooling2D, Dropout
 from tensorflow.keras.optimizers import Adadelta, RMSprop, Adam
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-# from efficientnet.tfkeras import  preprocess_input
-# from keras.callbacks import EarlyStopping, ModelCheckpoint
-# from tensorflow.keras.models import Model
-# from keras.models import Model
 from tensorflow.keras.models import load_model
 from tensorflow.keras import regularizers
 import h5py
@@ -42,12 +35,6 @@ def getArgs():
 
     args = argparser.parse_args()
     return args
-
-# def preprocessing_function(x):
-#     x = _preprocess_input(x)
-#     # x = ((x/255) - mean) / std
-#     # x = (x / 255)
-#     return x
 
 def freeze_layers(model):
     for i in model.layers:
@@ -165,10 +152,6 @@ def main():
 
     model = freeze_layers(model)
     model.save("finetuned_efficientnet_rwf_flow.h5")
-    # model = load_model("finetuned_efficientnet_rwf.h5")
- 
-    # preds = model.predict_generator(test_generator, steps=2)
-    # print(preds)
 
 
 if __name__ == "__main__":
