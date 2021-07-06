@@ -66,42 +66,26 @@ def kfold_qualitative(device, n_epochs, optimizer_kwargs, batch_size,
     skf = StratifiedKFold(n_splits=k)
 
     for train_index, test_index in skf.split(X, y):
-        if i == 3:
-            trainx, testx = X[train_index], X[test_index]
-            trainy, testy = y[train_index], y[test_index]
+        trainx, testx = X[train_index], X[test_index]
+        trainy, testy = y[train_index], y[test_index]
 
-            # Load model
-            model = ModelFactory.factory(**model_params)
-            model.cuda()
+        # Load model
+        model = ModelFactory.factory(**model_params)
+        model.cuda()
 
-            # data loaders
-            # mean = [0.485, 0.456, 0.406]
-            # std = [0.229, 0.224, 0.225]
+        spatial_transform = Compose([ToTensor()])
 
-            # normalize = Normalize(mean=mean, std=std)
+        vid_seq_Valid = RWFDataset(testx, testy, spatial_transform=spatial_transform,split='valid', use_raw=False)
 
-            spatial_transform = Compose([ToTensor()])
-            # test_spatial_transform = Compose([Scale(256), CenterCrop(244), ToTensor(),normalize])
+        test_loader = torch.utils.data.DataLoader(vid_seq_Valid, batch_size=1,
+                                                shuffle=False, num_workers=2)
 
-            vid_seq_Valid = RWFDataset(testx, testy, spatial_transform=spatial_transform,split='valid', use_raw=False)
+        check = torch.load('checkpoint-1.pt')
+        model.load_state_dict(check)
 
-            test_loader = torch.utils.data.DataLoader(vid_seq_Valid, batch_size=1,
-                                                    shuffle=False, num_workers=2)
-
-            check = torch.load('checkpoint-1.pt')
-            # new_state_dict = OrderedDict()
-            # for k, v in check.items():
-            #     # tirando o prefixo 'descriptor.' das keys
-            #     name = k[7:]
-            #     new_state_dict[name] = v
-
-            # model.load_state_dict(new_state_dict)
-            model.load_state_dict(check)
-
-            qualitative_analysis(model=model,
-                                device=device,
+        qualitative_analysis(model=model,
+                            device=device,
                                 testLoader=test_loader)
-            exit(1)
         i+=1
 
 def kfold(device, n_epochs, optimizer_kwargs, batch_size,
@@ -134,21 +118,12 @@ def kfold(device, n_epochs, optimizer_kwargs, batch_size,
 
         print(model.parameters)
 
-        # data loaders
-        # mean = [0.485, 0.456, 0.406]
-        # std = [0.229, 0.224, 0.225]
-
-        # normalize = Normalize(mean=mean, std=std)
-
         spatial_transform = Compose([ToTensor()])
-        # spatial_transform = Compose([Scale(256), RandomHorizontalFlip(),  CenterCrop(224),
-        #                          ToTensor(), normalize])
 
         vid_seq_train = RWFDataset(trainx, trainy, spatial_transform=spatial_transform, split='train', use_raw=False)
 
         train_loader = torch.utils.data.DataLoader(vid_seq_train, batch_size=batch_size,
                                                   shuffle=True, num_workers=2)
-        # test_spatial_transform = Compose([Scale(256), CenterCrop(244), ToTensor(),normalize])
 
         vid_seq_Valid = RWFDataset(testx, testy, spatial_transform=spatial_transform,split='valid', use_raw=False)
 

@@ -12,9 +12,6 @@ os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
 
 from datasets.base_dataset import BaseDataset
 import sys
-# sys.path.insert(1, '/home/src/')
-# import pyflow
-
 
 class RWFDataset(BaseDataset):
     """RWFDataset dataset"""
@@ -91,36 +88,11 @@ class RWFDataset(BaseDataset):
 
             inpSeq = torch.stack(inpSeq, 0)
         else:
-            # for image classification
-            # img = self.images[idx]
-            # label = self.labels[idx]
-            # self.spatial_transform.randomize_parameters()
-
-            # img = image.load_img(img)
-            # img = self.spatial_transform(img.convert('RGB'))
-            # inpSeq = torch.tensor(img)
-
             # from h5 file
             data = self.images[idx]
             label = self.labels[idx]
             inpSeq = torch.tensor(data)
             #
             inpSeq = inpSeq.resize_(inpSeq.size(0), inpSeq.size(1))
-
-            # from raw
-            # vid_name = self.images[idx]
-            # label    = self.labels[idx]
-            # videoImgs = glob.glob(vid_name + "/*.png")
-            # inpSeq = []
-
-            # self.spatial_transform.randomize_parameters()
-            # for id_ in range(0, len(videoImgs)):
-            #     img = videoImgs[id_]
-
-            #     img = image.load_img(img)
-
-            #     inpSeq.append(self.spatial_transform(img.convert('RGB')))
-
-            # inpSeq = torch.stack(inpSeq, 0)
 
         return inpSeq, label

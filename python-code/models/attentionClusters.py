@@ -90,27 +90,6 @@ class AttentionClusters(nn.Module):
     def __init__(self, feature_dim, nclass=2):
         super(AttentionClusters, self).__init__()
 
-        # print("====================================")
-        # print("Feature Extraction VGG19: finetuning")
-        # print("====================================")
-        # descriptor = models.vgg19(pretrained=True)
-        # descriptor.classifier[6] = nn.Linear(4096, nclass)
-
-        # check = torch.load('checkpoint-vgg19.pt')
-        # state_dicts = check
-        # new_state_dict = OrderedDict()
-        # for k, v in state_dicts.items():
-        #     # tirando o prefixo 'descriptor.' das keys
-        #     name = k[18:]
-        #     new_state_dict[name] = v
-
-        # descriptor.load_state_dict(new_state_dict)
-        # modules=list(descriptor.classifier.children())[:-4]
-        # descriptor.classifier = nn.Sequential(*modules)
-        # self.feature_extractor = descriptor
-        # for param in self.feature_extractor.parameters():
-        #     param.requires_grad = False
-
         self.att = ShiftingAttention(feature_dim, 5)
         self.dropout = nn.Dropout(0.1)
         self.fc = nn.Linear(feature_dim * 5, nclass)
@@ -118,11 +97,6 @@ class AttentionClusters(nn.Module):
         self.criterion = nn.CrossEntropyLoss().cuda()
 
     def forward(self, frames):
-        # features = []
-        # for idx,batch_item in enumerate(frames):
-        #     feature = self.feature_extractor(batch_item)
-        #     features.append(feature)
-        # x = torch.stack(features)
         x = frames
 
         x, weights = self.att(x)

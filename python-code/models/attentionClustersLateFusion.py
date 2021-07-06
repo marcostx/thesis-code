@@ -119,15 +119,6 @@ class AttentionClustersLateFusion(nn.Module):
         positive_scores = torch.zeros_like(x_f)
         fused_scores = torch.zeros_like(x_v)
         
-        # negative_scores[:,0] = x_v[:,0]
-        # negative_scores[:,1] = x_f[:,0    ]
-
-        # positive_scores[:,0] = x_v[:,1]
-        # positive_scores[:,1] = x_f[:,1]
-
-        # 0.5 importance for each modality
-        # fused_scores[:,0] = torch.mean(negative_scores,dim=1)
-        # fused_scores[:,1] = torch.mean(positive_scores,dim=1)
         # weigthed average
         fused_scores[:,0] = (8*x_v[:,0] + 2*x_f[:,0])/10
         fused_scores[:,1] = (8*x_v[:,1] + 2*x_f[:,1])/10

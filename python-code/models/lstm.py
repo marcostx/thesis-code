@@ -64,27 +64,6 @@ class LSTM(BaseModel):
 
         self.attention_hidden_dim = int(self.hidden_dim / 2)
 
-        # # if fineutuning ==True
-        # print("====================================")
-        # print("Feature Extraction VGG19: finetuning")
-        # print("====================================")
-        # descriptor = models.vgg19(pretrained=True)
-        # descriptor.classifier[6] = nn.Linear(4096, 2)
-
-        # check = torch.load('checkpoint-vgg19.pt')
-        # state_dicts = check
-        # new_state_dict = OrderedDict()
-        # for k, v in state_dicts.items():
-        #     # tirando o prefixo 'descriptor.' das keys
-        #     name = k[18:]
-        #     new_state_dict[name] = v
-
-        # descriptor.load_state_dict(new_state_dict)
-        # modules=list(descriptor.classifier.children())[:-4]
-        # descriptor.classifier = nn.Sequential(*modules)
-        # self.feature_extractor = descriptor
-        # for param in self.feature_extractor.parameters():
-        #     param.requires_grad = False
 
         if self.if_att:
             if self.att_type == "soft_att":
@@ -103,13 +82,6 @@ class LSTM(BaseModel):
         self.lstm = nn.LSTM(self.input_dim, self.hidden_dim, self.num_layers,
                             batch_first=True, dropout=self.dropout_prob, bidirectional=True)
 
-        # # init the network
-        # for name, param in self.lstm.named_parameters():
-        #   if 'bias' in name:
-        #      nn.init.constant(param, 1.0)
-        #   elif 'weight' in name:
-        #      nn.init.xavier_normal(param)
-
         # Define the output layer
         self.linear = nn.Linear(self.hidden_dim * 2, output_dim)
         # self.linear.apply(weight_init)
@@ -117,22 +89,8 @@ class LSTM(BaseModel):
         # self.hidden = self.init_hidden()
         self.criterion = nn.CrossEntropyLoss().cuda()
 
-    # def init_hidden(self):
-    #     h0 = Variable(torch.zeros(2, 1, self.hidden_dim).cuda())
-    #     c0 = Variable(torch.zeros(2, 1, self.hidden_dim).cuda())
-    #
-    #     return (h0, c0)
-
     def forward(self, x):
-        # features = []
-        # for idx,batch_item in enumerate(x):
-        #     feature = self.feature_extractor(batch_item)
-        #     features.append(feature)
-        # x = torch.stack(features)
-
-        outputs = []
         weights = None
-        # hidden = torch.randn(1, 1, self.hidden_dim).cuda()
 
         lstm_out, hidden = self.lstm(x, None)
 
@@ -149,7 +107,6 @@ class LSTM(BaseModel):
                                   (1.0 / lstm_out.size(0))).cuda()
                 lstm_out = torch.mul(lstm_out, atts)
                 lstm_out = lstm_out.sum(1)
-        # lstm_mean_out = lstm_out.mean(0)
 
         if not self.if_att:
             y = self.linear(lstm_out[:, -1, :])
@@ -157,11 +114,6 @@ class LSTM(BaseModel):
             y = self.linear(lstm_out)
         y = F.softmax(y)
 
-        # y = F.log_softmax(y, dim=1)
-        # using the last output (TAGM strategy)
-
-        # outs = torch.randn(1,2,requires_grad=True)
-        # outs.data = y.view(1,self.output_dim)
         return y, weights
 
     def loss(self, outputs, targets):

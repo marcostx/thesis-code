@@ -28,23 +28,8 @@ class DatasetFactory(object):
             train_h5 = h5py.File('/home/src/data/mediaeval-train-efficientnet.h5', 'r')
             test_h5 = h5py.File('/home/src/data/mediaeval-test-efficientnet.h5', 'r')
 
-        # test_h5 = h5py.File('/home/src/rwf-test-efficientnet.h5', 'r')
-        # #
-        # train_h5 = h5py.File('/home/src/rwf-train-flow-efficientnet.h5', 'r')
-        # test_h5 = h5py.File('/home/src/rwf-test-flow-efficientnet.h5', 'r')
-        # # #
         trainx, trainy = train_h5['x'], train_h5['y']
         testx, testy = test_h5['x'], test_h5['y']
-        # split into train/validation
-        # 200 is the validation size for rwf-2000 
-        # trainx, testx, trainy, testy = train_test_split(trainx.value, trainy.value, test_size=200, random_state=42)
-
-        # trainx, testx, trainy, testy = get_splits(data_path)
-        # trainx, testx, trainy, testy = train_test_split(trainx.value, trainy.value, test_size=200)
-        print("passou_1")
-
-        # for image classification
-        # trainx, trainy, testx, testy = get_images(trainx, trainy, valx, valy)
 
         if model_name == 'att_clusters_multimodal' or 'late' in model_name:
             if model_name == 'att_clusters_multimodal':
@@ -54,8 +39,8 @@ class DatasetFactory(object):
             elif model_name == 'lstm_late':
                 print("Fusion method : Late fusion [Bidirectional LSTM]")
             if dataset_name == 'rwf':
-                train_h5_flow = h5py.File('/home/src/data/rwf-train-efficientnet-flow-fine.h5', 'r')
-                test_h5_flow = h5py.File('/home/src/data/rwf-test-efficientnet-flow-fine.h5', 'r')
+                train_h5_flow = h5py.File('/home/src/data/rwf-train-efficientnet-flow.h5', 'r')
+                test_h5_flow = h5py.File('/home/src/data/rwf-test-efficientnet-flow.h5', 'r')
             elif dataset_name == 'mediaeval':
                 train_h5_flow = h5py.File('/home/src/data/mediaeval-train-efficientnet-flow.h5', 'r')
                 test_h5_flow = h5py.File('/home/src/data/mediaeval-test-efficientnet-flow-filtered.h5', 'r')
@@ -63,9 +48,6 @@ class DatasetFactory(object):
             trainx_f, trainy_f = train_h5_flow['x'], train_h5_flow['y']
             testx_f, testy_f = test_h5_flow['x'], test_h5_flow['y']
 
-            # trainx_f, testx_f, trainy_f, testy_f = train_test_split(trainx_f.value, trainy_f.value, test_size=200, random_state=42)
-            #
-            #  trainx_f = trainx_f[:1434]
             trainx_ = np.zeros((trainx_f.shape[0], 2*trainx_f.shape[1], args.feature_dim))
             testx_ = np.zeros((testy_f.shape[0], 2*trainx_f.shape[1], args.feature_dim))
 
@@ -78,13 +60,6 @@ class DatasetFactory(object):
             trainx = trainx_
             testx = testx_
             
-        print("passou2")
-
-        # mean = [0.485, 0.456, 0.406]
-        # std = [0.229, 0.224, 0.225]
-
-        # normalize = Normalize(mean=mean, std=std)
-        print("passou3")
         if test:
             test_spatial_transform = Compose([ToTensor()])
 
@@ -93,8 +68,6 @@ class DatasetFactory(object):
             return vidSeqValid, testy
         else:
             spatial_transform = Compose([ToTensor()])
-            # spatial_transform = Compose([Scale(256), RandomHorizontalFlip(),  CenterCrop(224),
-            #                          ToTensor(), normalize])
 
             vidSeqTrain = RWFDataset(trainx, trainy, spatial_transform, 'train', False)
             return vidSeqTrain, trainy
