@@ -47,8 +47,9 @@ def load_data(model_name):
 
     return trainx, trainy
 
+
 def kfold_qualitative(device, n_epochs, optimizer_kwargs, batch_size,
-          model_params, dataset_params, metadata_path):
+                      model_params, dataset_params, metadata_path):
     dataset_name = dataset_params["dataset_name"]
     model_name = model_params["model_name"]
 
@@ -57,10 +58,11 @@ def kfold_qualitative(device, n_epochs, optimizer_kwargs, batch_size,
 
     # Init experiment
     test_acc_list = {}
-    models_dir, logs_dir, experiment_id = init_experiment(metadata_path, dataset_name, model_name)
- 
+    models_dir, logs_dir, experiment_id = init_experiment(
+        metadata_path, dataset_name, model_name)
+
     # whole dataset
-    X, y = load_data(model_name) 
+    X, y = load_data(model_name)
 
     # get splits
     skf = StratifiedKFold(n_splits=k)
@@ -75,18 +77,20 @@ def kfold_qualitative(device, n_epochs, optimizer_kwargs, batch_size,
 
         spatial_transform = Compose([ToTensor()])
 
-        vid_seq_Valid = RWFDataset(testx, testy, spatial_transform=spatial_transform,split='valid', use_raw=False)
+        vid_seq_Valid = RWFDataset(
+            testx, testy, spatial_transform=spatial_transform, split='valid', use_raw=False)
 
         test_loader = torch.utils.data.DataLoader(vid_seq_Valid, batch_size=1,
-                                                shuffle=False, num_workers=2)
+                                                  shuffle=False, num_workers=2)
 
         check = torch.load('checkpoint-1.pt')
         model.load_state_dict(check)
 
         qualitative_analysis(model=model,
-                            device=device,
-                                testLoader=test_loader)
-        i+=1
+                             device=device,
+                             testLoader=test_loader)
+        i += 1
+
 
 def kfold(device, n_epochs, optimizer_kwargs, batch_size,
           model_params, dataset_params, metadata_path):
@@ -96,13 +100,13 @@ def kfold(device, n_epochs, optimizer_kwargs, batch_size,
     k = dataset_params['k']
     i = 0
 
-
     # Init experiment
     test_acc_list = {}
-    models_dir, logs_dir, experiment_id = init_experiment(metadata_path, dataset_name, model_name)
- 
+    models_dir, logs_dir, experiment_id = init_experiment(
+        metadata_path, dataset_name, model_name)
+
     # whole dataset
-    X, y = load_data(model_name) 
+    X, y = load_data(model_name)
 
     # get splits
     skf = StratifiedKFold(n_splits=k)
@@ -120,21 +124,25 @@ def kfold(device, n_epochs, optimizer_kwargs, batch_size,
 
         spatial_transform = Compose([ToTensor()])
 
-        vid_seq_train = RWFDataset(trainx, trainy, spatial_transform=spatial_transform, split='train', use_raw=False)
+        vid_seq_train = RWFDataset(
+            trainx, trainy, spatial_transform=spatial_transform, split='train', use_raw=False)
 
         train_loader = torch.utils.data.DataLoader(vid_seq_train, batch_size=batch_size,
-                                                  shuffle=True, num_workers=2)
+                                                   shuffle=True, num_workers=2)
 
-        vid_seq_Valid = RWFDataset(testx, testy, spatial_transform=spatial_transform,split='valid', use_raw=False)
+        vid_seq_Valid = RWFDataset(
+            testx, testy, spatial_transform=spatial_transform, split='valid', use_raw=False)
 
         test_loader = torch.utils.data.DataLoader(vid_seq_Valid, batch_size=batch_size,
-                                                 shuffle=True, num_workers=2)
+                                                  shuffle=True, num_workers=2)
 
         # Create optimizer
-        optimizer = OptimizerFactory.factory(model.parameters(), **optimizer_kwargs)
+        optimizer = OptimizerFactory.factory(
+            model.parameters(), **optimizer_kwargs)
 
         # Init experiment
-        model_dir, log_dir, kfold_experiment_id = init_kfold_subexperiment(models_dir, logs_dir, i, experiment_id)
+        model_dir, log_dir, kfold_experiment_id = init_kfold_subexperiment(
+            models_dir, logs_dir, i, experiment_id)
 
         train_metrics = train(model=model,
                               optimizer=optimizer,
@@ -148,9 +156,9 @@ def kfold(device, n_epochs, optimizer_kwargs, batch_size,
 
         if "test" in train_metrics and "acc" in train_metrics["test"]:
             test_acc_list[i] = train_metrics["test"]["acc"]
-        i+=1
+        i += 1
 
-    test_list = np.zeros(k,dtype=np.float)
+    test_list = np.zeros(k, dtype=np.float)
     for k, v in test_acc_list.items():
         test_list[k] = v
     test_list = list(test_list)

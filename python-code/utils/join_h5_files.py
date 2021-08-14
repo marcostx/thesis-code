@@ -46,7 +46,7 @@ h5.close()
 #     cmd_cp = "cp {} {}"
 #     fight_subfolders = [dI for dI in glob.glob(
 #     fight_folders) if os.path.isdir(os.path.join(fight_folders, dI))]
-    
+
 #     for idx, video_folder in enumerate(fight_subfolders):
 #         print("{}/{}".format(idx, len(fight_subfolders)))
 #         for img in glob.glob(video_folder+"/*png"):

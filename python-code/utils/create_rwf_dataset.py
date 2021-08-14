@@ -1,6 +1,17 @@
+import sys
+import cv2
+import time
+import h5py
+import argparse
+import subprocess
+import numpy as np
+from collections import OrderedDict
+from tensorflow.keras.models import load_model, Sequential, Model
+from efficientnet.tfkeras import center_crop_and_resize, preprocess_input
+from efficientnet.tfkeras import EfficientNetB3
 from os.path import basename, join, exists, splitext, dirname
 from torchvision import transforms, models
-#from spatial_transforms import (Compose, ToTensor, FiveCrops, Scale, Normalize, MultiScaleCornerCrop,
+# from spatial_transforms import (Compose, ToTensor, FiveCrops, Scale, Normalize, MultiScaleCornerCrop,
 #                                RandomHorizontalFlip, TenCrops, FlippedImagesTest, CenterCrop)
 import glob
 # import tensorflow as tf
@@ -8,20 +19,9 @@ import torch
 from torch import nn
 from PIL import Image
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 # from keras.preprocessing import image
-from efficientnet.tfkeras import EfficientNetB3
-from efficientnet.tfkeras import center_crop_and_resize, preprocess_input
-from tensorflow.keras.models import load_model, Sequential, Model
 
-from collections import OrderedDict
-import numpy as np
-import subprocess
-import argparse
-import h5py
-import time
-import cv2
-import sys
 
 VIDEO_EXTENSION = "*.avi"
 IMG_EXTENSION = ".png"
@@ -30,6 +30,7 @@ os.environ['TORCH_HOME'] = 'cache2/'
 os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+
 
 def getArgs():
     argparser = argparse.ArgumentParser(description=__doc__)
@@ -61,34 +62,39 @@ def getArgs():
     args = argparser.parse_args()
     return args
 
-def train_violence_parser(file_inp,video_files):
+
+def train_violence_parser(file_inp, video_files):
     file_inp = open(file_inp)
-    lines = file_inp.readlines()    
-    lines = [str.replace("\n","") for str in lines]
-    
-    video_files_wt_ext = [basename(video).split(".")[0] for video in video_files]
+    lines = file_inp.readlines()
+    lines = [str.replace("\n", "") for str in lines]
+
+    video_files_wt_ext = [basename(video).split(".")[0]
+                          for video in video_files]
 
     y = list(filter(lambda video: video in lines, video_files_wt_ext))
 
     return y
 
-def test_violence_parser(file_inp,video_files):
+
+def test_violence_parser(file_inp, video_files):
     file_inp = open(file_inp)
     lines = file_inp.readlines()
-    lines = [str.replace("\n","") for str in lines]
+    lines = [str.replace("\n", "") for str in lines]
     violence = []
     for line in lines:
         if line.split(" ")[3] == "1":
             violence.append(line.split(" ")[2])
 
-    video_files_wt_ext = [basename(video).split(".")[0] for video in video_files]
+    video_files_wt_ext = [basename(video).split(".")[0]
+                          for video in video_files]
 
     y = list(filter(lambda video: video in violence, video_files_wt_ext))
 
     return y
 
+
 def extractFeatures(feature_extractor, video, fps, modality, dataset_name, only_frames=False):
-    
+
     # cmd = "ffmpeg  -i {} -r {} -vf scale=640:-1 {}"
     cmd = "ffmpeg  -i {} -r {} -vf scale=360:-1 {}"
     cmd_delete = "rm -rf {}"
@@ -113,7 +119,7 @@ def extractFeatures(feature_extractor, video, fps, modality, dataset_name, only_
 
     if only_frames or len(imgs) == 0:
         print("Discarding ...")
-        return None 
+        return None
     if dataset_name == 'hockey':
         # minimum video size (hockey dataset)
         imgs = imgs[:40]
@@ -121,8 +127,7 @@ def extractFeatures(feature_extractor, video, fps, modality, dataset_name, only_
         # middle of the video considering a fixed sequence length
         video_seq = 60
         imgs = imgs[int((len(imgs)/2)-(video_seq)/2):int((len(imgs)/2)+(video_seq)/2)]
-    
-    
+
     start = time.time()
     xs = np.zeros((len(imgs), 300, 300, 3))
     if modality == 'raw':
@@ -138,7 +143,7 @@ def extractFeatures(feature_extractor, video, fps, modality, dataset_name, only_
             x = center_crop_and_resize(inp_img, image_size=300)
             # x = preprocess_input(x)
             x = np.expand_dims(x, 0)
-            xs[id_,:,:,:] = x
+            xs[id_, :, :, :] = x
 
             # print(x.shape)
             # features = feature_extractor.predict(x, batch_size=)
@@ -187,14 +192,14 @@ def extractFeatures(feature_extractor, video, fps, modality, dataset_name, only_
             x = center_crop_and_resize(rgb, image_size=300)
             x = preprocess_input(x)
             x = np.expand_dims(x, 0)
-            xs[idx_,:,:,:] = x
+            xs[idx_, :, :, :] = x
 
             # features = feature_extractor.predict(x)
 
             # video_features = features if video_features is None else np.concatenate(
             #     [video_features, features], axis=0)
 
-        if np.count_nonzero(xs)==0:
+        if np.count_nonzero(xs) == 0:
             return None
         # Padding the last frame as empty array
         x = np.zeros((300, 300, 3), dtype=int)
@@ -258,13 +263,14 @@ def main():
         # for layer in model.layers[:-1]:
         #     print(layer)
         #     feature_extractor.add(layer)
-        feature_extractor = Model(inputs=model.layers[0].input, outputs=model.layers[-2].output)
+        feature_extractor = Model(
+            inputs=model.layers[0].input, outputs=model.layers[-2].output)
     else:
         feature_extractor = EfficientNetB3(
             weights='imagenet', include_top=False, pooling='avg')
 
     h5 = h5py.File('{}-{}-{}-{}.h5'.format(datasetName,
-                                          split_name, start_v, end_v), 'w')
+                                           split_name, start_v, end_v), 'w')
     # mediaevaltest_names = open("mediaevaltest_names_{}_{}.txt".format(start_v, end_v), 'a')
 
     if datasetName == 'rwf':
@@ -274,7 +280,7 @@ def main():
         # non violent videos
         negVideoList = glob.glob(
             join(datasetPath, split_name, negativeFolder, VIDEO_EXTENSION))
-    elif datasetName == 'hockey' :
+    elif datasetName == 'hockey':
         posVideoList = glob.glob(
             join(datasetPath, positiveFolder, VIDEO_EXTENSION))
         negVideoList = glob.glob(
@@ -284,14 +290,15 @@ def main():
             join(datasetPath, split_name, VIDEO_EXTENSION))
         ignore_files_with_words = ["flip", "transpose"]
         videos = [x for x in videos if
-              all(y not in x for y in ignore_files_with_words)]
-        
+                  all(y not in x for y in ignore_files_with_words)]
+
         if split_name == 'train':
             posVideoList = train_violence_parser(violence_mediaeval, videos)
         else:
             posVideoList = test_violence_parser(violence_mediaeval, videos)
-        
-        posVideoList = [join(datasetPath, split_name, video)+'.mp4' for video in posVideoList]
+
+        posVideoList = [join(datasetPath, split_name, video) +
+                        '.mp4' for video in posVideoList]
         negVideoList = sorted(list(set(videos) - set(posVideoList)))
 
     print("positive videos ...")

@@ -57,7 +57,8 @@ class ToTensor(object):
             return img.float().div(self.norm_value)
 
         if accimage is not None and isinstance(pic, accimage.Image):
-            nppic = np.zeros([pic.channels, pic.height, pic.width], dtype=np.float32)
+            nppic = np.zeros(
+                [pic.channels, pic.height, pic.width], dtype=np.float32)
             pic.copyto(nppic)
             return torch.from_numpy(nppic)
 
@@ -67,7 +68,8 @@ class ToTensor(object):
         elif pic.mode == 'I;16':
             img = torch.from_numpy(np.array(pic, np.int16, copy=False))
         else:
-            img = torch.ByteTensor(torch.ByteStorage.from_buffer(pic.tobytes()))
+            img = torch.ByteTensor(
+                torch.ByteStorage.from_buffer(pic.tobytes()))
         # PIL image mode: 1, L, P, I, F, RGB, YCbCr, RGBA, CMYK
         if pic.mode == 'YCbCr':
             nchannel = 3
@@ -137,7 +139,8 @@ class Scale(object):
     """
 
     def __init__(self, size, interpolation=Image.BILINEAR):
-        assert isinstance(size, int) or (isinstance(size, collections.Iterable) and len(size) == 2)
+        assert isinstance(size, int) or (isinstance(
+            size, collections.Iterable) and len(size) == 2)
         self.size = size
         self.interpolation = interpolation
 
@@ -209,7 +212,7 @@ class RandomHorizontalFlip(object):
             PIL.Image: Randomly flipped image.
         """
         if self.p < 0.5:
-            img =  img.transpose(Image.FLIP_LEFT_RIGHT)
+            img = img.transpose(Image.FLIP_LEFT_RIGHT)
             if inv is True:
                 img = ImageOps.invert(img)
         return img
@@ -279,9 +282,8 @@ class MultiScaleCornerCrop(object):
 
     def randomize_parameters(self):
         self.scale = self.scales[random.randint(0, len(self.scales) - 1)]
-        self.crop_position = self.crop_positions[random.randint(0, len(self.crop_positions) - 1)]
-
-
+        self.crop_position = self.crop_positions[random.randint(
+            0, len(self.crop_positions) - 1)]
 
 
 class FiveCrops(object):
@@ -337,22 +339,27 @@ class FiveCrops(object):
         x2 = image_width
         y2 = image_height
         crop_positions += [[x1, y1, x2, y2]]
-        cropped_imgs = [img.crop(crop_positions[i]).resize((self.size, self.size), self.interpolation) for i in range(5)]
+        cropped_imgs = [img.crop(crop_positions[i]).resize(
+            (self.size, self.size), self.interpolation) for i in range(5)]
         if self.tenCrops is True:
             if inv is True:
-                flipped_imgs = [ImageOps.invert(cropped_imgs[i].transpose(Image.FLIP_LEFT_RIGHT)) for i in range(5)]
+                flipped_imgs = [ImageOps.invert(cropped_imgs[i].transpose(
+                    Image.FLIP_LEFT_RIGHT)) for i in range(5)]
             else:
-                flipped_imgs = [cropped_imgs[i].transpose(Image.FLIP_LEFT_RIGHT) for i in range(5)]
+                flipped_imgs = [cropped_imgs[i].transpose(
+                    Image.FLIP_LEFT_RIGHT) for i in range(5)]
             cropped_imgs += flipped_imgs
 
         tensor_imgs = [self.to_Tensor(img, inv, flow) for img in cropped_imgs]
 
-        normalized_imgs = [self.normalize(img, inv, flow) for img in tensor_imgs]
+        normalized_imgs = [self.normalize(img, inv, flow)
+                           for img in tensor_imgs]
         fiveCropImgs = torch.stack(normalized_imgs, 0)
         return fiveCropImgs
 
     def randomize_parameters(self):
         pass
+
 
 class TenCrops(object):
     """Generates four corner and center crops and their horizontally flipped versions
@@ -363,7 +370,8 @@ class TenCrops(object):
         self.interpolation = interpolation
         self.mean = mean
         self.std = std
-        self.fiveCrops = FiveCrops(self.size, self.mean, self.std, self.interpolation, True)
+        self.fiveCrops = FiveCrops(
+            self.size, self.mean, self.std, self.interpolation, True)
 
     def __call__(self, img, inv, flow):
         return self.fiveCrops(img, inv, flow)

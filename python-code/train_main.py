@@ -40,6 +40,7 @@ os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
 os.environ['TORCH_HOME'] = 'cache2/'
 os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
+
 def main():
     args = get_args()
 
@@ -111,26 +112,25 @@ def main():
 
     model = model.cuda()
 
-
     # Data loading
     # Train set
-    train_set, test_y = DatasetFactory.factory(args,test=False)
+    train_set, test_y = DatasetFactory.factory(args, test=False)
     if dataset_name == 'mediaeval':
         trainLoader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, pin_memory=True, sampler=BalancedBatchSampler(train_set, test_y),
-                                            num_workers=2)
+                                                  num_workers=2)
     else:
         trainLoader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True,
-                                            num_workers=2)
+                                                  num_workers=2)
     # Test set
-    test_set, test_y = DatasetFactory.factory(args,test=True)
+    test_set, test_y = DatasetFactory.factory(args, test=True)
 
     if dataset_name == 'mediaeval':
         testLoader = torch.utils.data.DataLoader(test_set, batch_size=1, shuffle=False, pin_memory=True,
-                                                num_workers=2)
+                                                 num_workers=2)
     else:
         testLoader = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuffle=True,
-                                                num_workers=2)
-    
+                                                 num_workers=2)
+
     # video used for qualitative analysis
     if qualitative_flag:
         # video_selected_index = 131
@@ -182,30 +182,31 @@ def main():
     if dataset_name == 'mediaeval':
         print("Mediaeval experiments")
         train_metrics = train(model=model,
-                          optimizer=optimizer,
-                          ini_epoch=ini_epoch,
-                          n_epochs=n_epochs,
-                          device=device,
-                          trainloader=trainLoader,
-                          testloader=testLoader,
-                          model_dir=model_dir,
-                          log_dir=log_dir,
-                          is_mediaeval=True,
-                          test=False,
-                          cv_idx=1)
+                              optimizer=optimizer,
+                              ini_epoch=ini_epoch,
+                              n_epochs=n_epochs,
+                              device=device,
+                              trainloader=trainLoader,
+                              testloader=testLoader,
+                              model_dir=model_dir,
+                              log_dir=log_dir,
+                              is_mediaeval=True,
+                              test=False,
+                              cv_idx=1)
 
-        test_mediaeval(device, testLoader, model, model_name, args.if_att, args.att_type)
+        test_mediaeval(device, testLoader, model, model_name,
+                       args.if_att, args.att_type)
         exit(1)
     else:
         train_metrics = train(model=model,
-                          optimizer=optimizer,
-                          ini_epoch=ini_epoch,
-                          n_epochs=n_epochs,
-                          device=device,
-                          trainloader=trainLoader,
-                          testloader=testLoader,
-                          model_dir=model_dir,
-                          log_dir=log_dir)
+                              optimizer=optimizer,
+                              ini_epoch=ini_epoch,
+                              n_epochs=n_epochs,
+                              device=device,
+                              trainloader=trainLoader,
+                              testloader=testLoader,
+                              model_dir=model_dir,
+                              log_dir=log_dir)
     print("valid acc:", train_metrics["test"]["acc"])
     print("Kfold finished log path:", log_dir)
 

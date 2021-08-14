@@ -33,6 +33,7 @@ def glorot_normal(shape):
     s = np.sqrt(2. / (fan_in + fan_out))
     return normal(shape, s)
 
+
 _softmax = nn.Softmax()
 
 
@@ -114,15 +115,14 @@ class AttentionClustersLateFusion(nn.Module):
 
         x_v = F.softmax(x_v)
         x_f = F.softmax(x_f)
-        
+
         negative_scores = torch.zeros_like(x_v)
         positive_scores = torch.zeros_like(x_f)
         fused_scores = torch.zeros_like(x_v)
-        
-        # weigthed average
-        fused_scores[:,0] = (8*x_v[:,0] + 2*x_f[:,0])/10
-        fused_scores[:,1] = (8*x_v[:,1] + 2*x_f[:,1])/10
 
+        # weigthed average
+        fused_scores[:, 0] = (8*x_v[:, 0] + 2*x_f[:, 0])/10
+        fused_scores[:, 1] = (8*x_v[:, 1] + 2*x_f[:, 1])/10
 
         return fused_scores, weights1
 

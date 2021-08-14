@@ -1,15 +1,16 @@
 import numpy as np
 import glob
-import os 
+import os
 from sklearn.metrics import balanced_accuracy_score
+
 
 def get_violence_videos(file_inp, prediction_list):
     file_inp = open(file_inp)
     lines = file_inp.readlines()
-    lines = [str.replace("\n","") for str in lines]
+    lines = [str.replace("\n", "") for str in lines]
     video_names = [line_.split(" ")[0] for line_ in prediction_list]
     dict_labels = {}
-    labels=[]
+    labels = []
     preds = []
     for line in lines:
         dict_labels[line.split(" ")[2]] = int(line.split(" ")[3])

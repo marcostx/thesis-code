@@ -38,6 +38,7 @@ os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
 os.environ['TORCH_HOME'] = 'cache2/'
 os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
+
 def main():
     args = get_args()
 
@@ -104,20 +105,21 @@ def main():
 
     if qualitative_flag:
         kfold_qualitative(device=device,
-            n_epochs=n_epochs,
-            optimizer_kwargs=optimizer_kwargs,
-            batch_size=batch_size,
-            model_params=model_params,
-            dataset_params=dataset_params,
-            metadata_path=metadata_path)
-    else:        
+                          n_epochs=n_epochs,
+                          optimizer_kwargs=optimizer_kwargs,
+                          batch_size=batch_size,
+                          model_params=model_params,
+                          dataset_params=dataset_params,
+                          metadata_path=metadata_path)
+    else:
         kfold(device=device,
-            n_epochs=n_epochs,
-            optimizer_kwargs=optimizer_kwargs,
-            batch_size=batch_size,
-            model_params=model_params,
-            dataset_params=dataset_params,
-            metadata_path=metadata_path)
+              n_epochs=n_epochs,
+              optimizer_kwargs=optimizer_kwargs,
+              batch_size=batch_size,
+              model_params=model_params,
+              dataset_params=dataset_params,
+              metadata_path=metadata_path)
+
 
 if __name__ == "__main__":
     main()

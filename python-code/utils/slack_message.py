@@ -1,6 +1,7 @@
 import os
 import slack
 
+
 def send_msg(string_message):
     token = "xoxp-183901988241-226969512416-1068142375409-f0aa0ab88a40efe38ceeff6ecf607f98"
     channel = "marcos-experiments"

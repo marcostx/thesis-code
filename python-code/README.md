@@ -6,7 +6,6 @@ Evaluating Attention-Based Models for Violence Classification in Videos (Python)
 * [Make](https://www.gnu.org/software/make/)
 * [Docker](https://www.docker.com)
 
-
 ## Parameters
 * GPU=`true|false`
 * CUDA_VISIBLE_DEVICES=`GPU_ID`

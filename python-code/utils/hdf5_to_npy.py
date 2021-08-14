@@ -22,6 +22,7 @@ from sklearn.model_selection import StratifiedKFold
 
 os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
 
+
 def h5_to_npy(inp, output_file, target, dtype):
     """ Save array stored in hdf5 dataset to a .npy file: {dest_dir}/{dest_name}.npy
      Parameters
@@ -42,6 +43,7 @@ def h5_to_npy(inp, output_file, target, dtype):
     np.save(output_file, np.asarray(h5_file[target]))
     print('Saved !!')
 
+
 def holdout_dataset():
     inp = "/home/src/mediaeval-train-efficientnet-flow.h5"
     out_x = "/home/src/train-flow-media_x.npy"
@@ -59,9 +61,10 @@ def holdout_dataset():
 
     print("finished")
 
+
 def cv_dataset():
     inp = "/home/src/hockey-efficientnet.h5"
-     # whole dataset
+    # whole dataset
     train_h5 = h5py.File(inp, 'r')
     # #
     X, y = train_h5['x'], train_h5['y']
@@ -86,7 +89,7 @@ def cv_dataset():
 
         np.save(out_x, np.asarray(testx))
         np.save(out_y, np.asarray(testy))
-        index+=1
+        index += 1
 
     print("finished")
 

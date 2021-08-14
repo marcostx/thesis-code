@@ -64,7 +64,6 @@ class LSTM(BaseModel):
 
         self.attention_hidden_dim = int(self.hidden_dim / 2)
 
-
         if self.if_att:
             if self.att_type == "soft_att":
                 print("ATT OPTION : Model attention")
@@ -94,7 +93,7 @@ class LSTM(BaseModel):
 
         lstm_out, hidden = self.lstm(x, None)
 
-        if self.if_att: 
+        if self.if_att:
             if self.att_type == "soft_att":
                 weights = self.attention(lstm_out)
                 lstm_out = torch.mul(lstm_out, weights)

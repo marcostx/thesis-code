@@ -20,6 +20,7 @@ def create_dirs(dirs):
         exit(-1)
 # from utils.dirs import create_dirs
 
+
 def init_experiment(path, dataset_name, model_name, config_files=None, exp_path=""):
     # get the experiments dirs
     models_dir, log_dir, metadata_dir, configs_dir, experiment_id = get_experiment_dirs(
@@ -56,6 +57,7 @@ def get_experiment_id(path, exp_name):
 
     return exp_dir, exp_id
 
+
 def get_experiment_dirs(path, dataset_name, model_name, exp_path=""):
     # Creating metadata experiment folder
     exp_path = path if exp_path == "" else exp_path
@@ -79,10 +81,10 @@ def log_metadata_experiment(
     # config_path = "{}/config.json".format(    print("\n---------------------------------------")
     # print("Copy config file into metadata folder:")
     # print("---------------------------------------")
-#     print("Config files paths:")
-#     for key, value in configs_files.items():
-#         print(key, ":", value)
-#         shutil.copy(value, "{}/{}.json".format(configs_dir, key))
+    #     print("Config files paths:")
+    #     for key, value in configs_files.items():
+    #         print(key, ":", value)
+    #         shutil.copy(value, "{}/{}.json".format(configs_dir, key))
     print("\n----------------------")
     print("Exp: {}, saved in:".format(exp_id))
     print("----------------------")
@@ -110,6 +112,7 @@ def log_kfold_metadata_subexperiment(model_dir, log_dir, k):
     print("Tensorboard logs:", log_dir)
     print("\n")
 
+
 def ini_checkpoint_experiment(checkpoint_file, model_name, dataset_name, cross=False):
     # ../metadata/CK-experiments/c3d_top/2019-06-11/4/checkpoints/checkpoint.pth
     # ../metadata/cross_1vall_train_CK-experiments/c3d/2019-07-18/4/checkpoints/checkpoint.pth
@@ -124,11 +127,13 @@ def ini_checkpoint_experiment(checkpoint_file, model_name, dataset_name, cross=F
         dataset_name = "cross_1vall_train_{}".format(dataset_name)
 
     if checkpoint_model_name != model_name:
-        raise ValueError("train model name is not same of checkpoint model name")
+        raise ValueError(
+            "train model name is not same of checkpoint model name")
     if checkpoint_dataset_name != dataset_name:
         raise ValueError("dataset name is not same of checkpoint dataset name")
 
-    experiment_id = "{}-experiments/{}/{}".format(dataset_name, model_name, checkpoint_data)
+    experiment_id = "{}-experiments/{}/{}".format(
+        dataset_name, model_name, checkpoint_data)
     model_dir = "{}/{}/checkpoints".format(metadata_path, experiment_id)
     log_dir = "{}/{}/logs".format(metadata_path, experiment_id)
 
@@ -139,6 +144,7 @@ def ini_checkpoint_experiment(checkpoint_file, model_name, dataset_name, cross=F
 
     return model_dir, log_dir, experiment_id
 
+
 def ini_kfold_checkpoint_experiment(checkpoint_file, model_name, dataset_name, models_dir, logs_dir, experiment_id):
     # ../metadata/CK-experiments/c3d_top/2019-06-11/4/checkpoints/checkpoint.pth
     # ../metadata/CK-experiments/c3d/2019-06-16/2/checkpoints/kfold_checkpoint.pth
@@ -147,7 +153,8 @@ def ini_kfold_checkpoint_experiment(checkpoint_file, model_name, dataset_name, m
     checkpoint_data = "/".join(checkpoint_file.split("/")[4:6])
 
     if checkpoint_model_name != model_name:
-        raise ValueError("train model name is not same of checkpoint model name")
+        raise ValueError(
+            "train model name is not same of checkpoint model name")
     if checkpoint_dataset_name != dataset_name:
         raise ValueError("dataset name is not same of checkpoint dataset name")
 

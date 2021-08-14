@@ -32,6 +32,7 @@ def glorot_normal(shape):
     s = np.sqrt(2. / (fan_in + fan_out))
     return normal(shape, s)
 
+
 _softmax = nn.Softmax()
 
 

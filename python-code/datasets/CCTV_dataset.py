@@ -1,3 +1,4 @@
+from datasets.base_dataset import BaseDataset
 import os
 import torch
 import numpy as np
@@ -12,8 +13,6 @@ from keras.preprocessing import image
 
 os.environ['TORCH_HOME'] = 'cache2/'
 os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
-
-from datasets.base_dataset import BaseDataset
 
 
 class CCTVDataset(BaseDataset):

@@ -1,4 +1,4 @@
-import os 
+import os
 from os.path import basename, join, exists, splitext, dirname
 import glob
 import time
@@ -6,6 +6,7 @@ import argparse
 import subprocess
 
 VIDEO_EXTENSION = "*.avi"
+
 
 def getArgs():
     argparser = argparse.ArgumentParser(description=__doc__)
@@ -19,10 +20,11 @@ def getArgs():
     args = argparser.parse_args()
     return args
 
+
 def cp(path, dest):
     cmd_cp = "cp {} {}"
-    subprocess.call(cmd_cp.format(path,dest), shell=True)
-    
+    subprocess.call(cmd_cp.format(path, dest), shell=True)
+
 
 def main():
     start = time.time()
@@ -34,11 +36,13 @@ def main():
     positive_folder = "Fight"
     negative_folder = "NonFight"
 
-    neg_folder = join(datasetPath, "rwf-2000-frames-of", split_name, negative_folder)
-    pos_folder = join(datasetPath, "rwf-2000-frames-of", split_name, positive_folder)
+    neg_folder = join(datasetPath, "rwf-2000-frames-of",
+                      split_name, negative_folder)
+    pos_folder = join(datasetPath, "rwf-2000-frames-of",
+                      split_name, positive_folder)
 
     posVideoList = glob.glob(
-            join(datasetPath, split_name, positive_folder, "*"))
+        join(datasetPath, split_name, positive_folder, "*"))
     # non violent videos
     negVideoList = glob.glob(
         join(datasetPath, split_name, negative_folder, "*"))
@@ -49,7 +53,7 @@ def main():
             imgs = glob.glob(join(video, "*.png"))
             for img in imgs:
                 print(img)
-                cp(img,pos_folder)
+                cp(img, pos_folder)
 
     for idx, video in enumerate(negVideoList):
         print(video)
@@ -57,13 +61,11 @@ def main():
             imgs = glob.glob(join(video, "*.png"))
             for img in imgs:
                 print(img)
-                cp(img,neg_folder)
+                cp(img, neg_folder)
 
     end = time.time()
     print("Time spent: {}".format(end - start))
 
 
-
-
-if  __name__ == '__main__':
+if __name__ == '__main__':
     main()

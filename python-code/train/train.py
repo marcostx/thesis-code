@@ -48,19 +48,21 @@ def train_epoch(device, trainloader, model, optimizer, is_mediaeval):
                 _, predicted = torch.max(outputs[0].data, 1)
             else:
                 _, predicted = torch.max(outputs.data, 1)
-            
+
             if is_mediaeval:
-                balanced_accuracy = balanced_accuracy_score(labels.cpu(),predicted.cpu())
+                balanced_accuracy = balanced_accuracy_score(
+                    labels.cpu(), predicted.cpu())
 
                 metrics = {"loss": running_loss / (i + 1),
-                        "balanced acc": balanced_accuracy }
+                           "balanced acc": balanced_accuracy}
             else:
 
                 running_train_total += labels.size(0)
-                running_train_correct += (predicted == labels.long()).sum().item()
+                running_train_correct += (predicted ==
+                                          labels.long()).sum().item()
 
                 metrics = {"loss": running_loss / (i + 1),
-                        "acc": 100 * running_train_correct / running_train_total}
+                           "acc": 100 * running_train_correct / running_train_total}
 
             # Update tqdm
             t.set_description('Batch %i' % (i + 1))
@@ -97,13 +99,13 @@ def qualitative_analysis(model, device, testLoader):
             # if (predicted != labels.long() and predicted == 0 and outputs.data[0][1] > best_score):
             #     print(idx, outputs.data[0][1])
             #     best_score = outputs.data[0][1]
-                
+
             # if idx == 33:
             if idx == 35:
                 print(predicted, labels.long())
                 best_weights = weights
                 break
-    
+
     best_weights = best_weights.cpu().numpy()
     weights = np.reshape(best_weights, (60, 1))
     # weights = np.reshape(best_weights, (150,1))
@@ -113,8 +115,9 @@ def qualitative_analysis(model, device, testLoader):
     weights = np.insert(weights, 1, indexes, axis=1)
 
     print("saving attention weights ...")
-    np.savetxt("attention_weights/soft_att_incorrect.csv", weights, delimiter=",")
-    
+    np.savetxt("attention_weights/soft_att_incorrect.csv",
+               weights, delimiter=",")
+
     # RWF
     # best_weights = best_weights.cpu().numpy()
     # weights = np.reshape(best_weights, (150, 3))
@@ -170,30 +173,37 @@ def test_epoch(device, testloader, model, early_stop, cv_idx):
 
     return metrics, test_losses
 
+
 def test_mediaeval(device, testloader, model, model_name, if_att, att_type, official_metric=True):
     correct = 0
     total = 0
 
     predicted_list = []
-    labels_list = []        
+    labels_list = []
     test_losses = []
     preds = []
 
     if official_metric:
         if model_name == 'att_clusters' or model_name == 'att_clusters_multimodal' or model_name == 'att_clusters_late':
-            test_predictions_mediaeval = open("mediaeval_2015_predictions_{}.txt".format(model_name),"w")
+            test_predictions_mediaeval = open(
+                "mediaeval_2015_predictions_{}.txt".format(model_name), "w")
         elif model_name == 'lstm_late':
             if if_att:
-                test_predictions_mediaeval = open("mediaeval_2015_predictions_{}_{}_late_fusion.txt".format(model_name, att_type),"w")
+                test_predictions_mediaeval = open(
+                    "mediaeval_2015_predictions_{}_{}_late_fusion.txt".format(model_name, att_type), "w")
             else:
-                test_predictions_mediaeval = open("mediaeval_2015_predictions_{}_{}_late_fusion.txt".format(model_name, "last_seg"),"w")
+                test_predictions_mediaeval = open(
+                    "mediaeval_2015_predictions_{}_{}_late_fusion.txt".format(model_name, "last_seg"), "w")
         elif model_name == 'lstm':
             if if_att:
-                test_predictions_mediaeval = open("mediaeval_stuffs/mediaeval_2015_predictions_{}_{}.txt".format(model_name, att_type),"w")
+                test_predictions_mediaeval = open(
+                    "mediaeval_stuffs/mediaeval_2015_predictions_{}_{}.txt".format(model_name, att_type), "w")
             else:
-                test_predictions_mediaeval = open("mediaeval_stuffs/mediaeval_2015_predictions_{}_{}.txt".format(model_name, "last_seg"),"w")
+                test_predictions_mediaeval = open(
+                    "mediaeval_stuffs/mediaeval_2015_predictions_{}_{}.txt".format(model_name, "last_seg"), "w")
 
-        test_filenames_mediaeval = open("mediaeval_stuffs/test_mediaeval_raw.txt", "r")
+        test_filenames_mediaeval = open(
+            "mediaeval_stuffs/test_mediaeval_raw.txt", "r")
 
         with torch.no_grad():
             # Set evaluation mode
@@ -211,20 +221,21 @@ def test_mediaeval(device, testloader, model, model_name, if_att, att_type, offi
 
                 if type(outputs) is tuple:
                     _, predicted = torch.max(outputs[0].data, 1)
-                    confidence = outputs.data[:,1]
+                    confidence = outputs.data[:, 1]
                 else:
                     _, predicted = torch.max(outputs.data, 1)
-                    confidence = outputs.data[:,1]
-                total += labels.size(0) 
+                    confidence = outputs.data[:, 1]
+                total += labels.size(0)
                 correct += (predicted == labels.long()).sum().item()
-                
+
                 if predicted.cpu().numpy()[0] == 1:
                     label_predicted = 't'
                 else:
                     label_predicted = 'f'
-                
+
                 video_name = video_names[idx]
-                test_predictions_mediaeval.write(video_name.split("\n")[0] + str(confidence.cpu().numpy()[0]) + " " + label_predicted + " \n")
+                test_predictions_mediaeval.write(video_name.split(
+                    "\n")[0] + str(confidence.cpu().numpy()[0]) + " " + label_predicted + " \n")
 
                 predicted_list.append(predicted.cpu())
                 labels_list.append(labels.cpu())
@@ -249,28 +260,32 @@ def test_mediaeval(device, testloader, model, model_name, if_att, att_type, offi
 
                 if type(outputs) is tuple:
                     _, predicted = torch.max(outputs[0].data, 1)
-                    confidence = outputs.data[:,1]
+                    confidence = outputs.data[:, 1]
                 else:
                     _, predicted = torch.max(outputs.data, 1)
-                    confidence = outputs.data[:,1]
-                # total += labels.size(0) 
+                    confidence = outputs.data[:, 1]
+                # total += labels.size(0)
                 preds.append(predicted.cpu())
                 labels_list.append(labels.cpu())
 
                 test_losses.append(loss.item())
 
-        balanced_accuracy = balanced_accuracy_score(labels_list,preds)
+        balanced_accuracy = balanced_accuracy_score(labels_list, preds)
         test_losses = np.average(test_losses)
-        if  model_name == 'lstm':
+        if model_name == 'lstm':
             if if_att:
-                print("Balanced accuracy [{}-{}]: {}".format(model_name, att_type, balanced_accuracy))
+                print(
+                    "Balanced accuracy [{}-{}]: {}".format(model_name, att_type, balanced_accuracy))
             else:
-                print("Balanced accuracy [{}-{}]: {}".format(model_name, 'last_seg', balanced_accuracy))
+                print(
+                    "Balanced accuracy [{}-{}]: {}".format(model_name, 'last_seg', balanced_accuracy))
         else:
-            print("Balanced accuracy [{}]: {}".format(model_name, balanced_accuracy))
+            print("Balanced accuracy [{}]: {}".format(
+                model_name, balanced_accuracy))
         print("Test loss : {}".format(test_losses))
 
     # if model_name == 'att_clusters' or model_name == 'att_clusters_multimodal' or model_name == 'att_clusters_late':
+
 
 def train(model, optimizer, n_epochs, device, trainloader, testloader, model_dir, log_dir, cv_idx=1, is_mediaeval=False, ini_epoch=0, test=True):
 
@@ -286,7 +301,8 @@ def train(model, optimizer, n_epochs, device, trainloader, testloader, model_dir
     for epoch in range(ini_epoch, n_epochs):  # loop over the dataset multiple times
         print(pattern % ((epoch + 1), n_epochs))
 
-        train_metrics = train_epoch(device, trainloader, model, optimizer,is_mediaeval)
+        train_metrics = train_epoch(
+            device, trainloader, model, optimizer, is_mediaeval)
         for k, v in train_metrics.items():
             if type(v) is not dict:
                 tb_writer.add_scalar('train/{}'.format(k), v, epoch)
@@ -313,7 +329,6 @@ def train(model, optimizer, n_epochs, device, trainloader, testloader, model_dir
 
         # torch.save(state, "{}/checkpoint.pth".format(model_dir))
         torch.save(model.state_dict(), "checkpoint.pth")
-
 
     if test:
         metrics = {"train": train_metrics, "test": test_metrics}

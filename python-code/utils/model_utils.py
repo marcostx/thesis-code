@@ -10,7 +10,7 @@ import os
 #         return "blocks"
 
 
-def get_model_params(model_name, dataset_name, att_rnn_size,att_type, hidden_size,feature_dim, if_att, pretrained, bh=False, dropout_prob=0.5):
+def get_model_params(model_name, dataset_name, att_rnn_size, att_type, hidden_size, feature_dim, if_att, pretrained, bh=False, dropout_prob=0.5):
     n_gpus = torch.cuda.device_count() if torch.cuda.device_count() > 0 else 1
 
     img_size = 100
@@ -24,7 +24,7 @@ def get_model_params(model_name, dataset_name, att_rnn_size,att_type, hidden_siz
         img_size = 300
         model_kwargs = {}
 
-    elif  model_name == "vgg16_lstm":
+    elif model_name == "vgg16_lstm":
         batch_size = 3
         img_size = 224
         model_kwargs = {}
@@ -69,7 +69,6 @@ def get_model_params(model_name, dataset_name, att_rnn_size,att_type, hidden_siz
         model_kwargs = {
             "bh": bh
         }
-
 
     model_kwargs = {
         "model_name": model_name,

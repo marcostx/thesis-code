@@ -10,7 +10,6 @@ class BaseDataset(Dataset):
                 new_labels.append(index_map[label])
             return np.array(new_labels)
 
-
         classes = []
         for dataset in datasets:
             classes.extend(dataset.classes)

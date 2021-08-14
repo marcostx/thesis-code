@@ -7,6 +7,7 @@ from torchvision import models
 from collections import OrderedDict
 from models.lstm import LSTM
 
+
 class LSTMLateFusion(BaseModel):
 
     def __init__(self, model_name, input_dim, att_type, hidden_dim, if_attention, dropout_prob=0.5, output_dim=2,
@@ -20,8 +21,10 @@ class LSTMLateFusion(BaseModel):
         self.att_type = att_type
         self.dropout_prob = dropout_prob
 
-        self.lstm_rgb = LSTM(model_name, input_dim, att_type, hidden_dim, if_attention)
-        self.lstm_flow = LSTM(model_name, input_dim, att_type, hidden_dim, if_attention)
+        self.lstm_rgb = LSTM(model_name, input_dim,
+                             att_type, hidden_dim, if_attention)
+        self.lstm_flow = LSTM(model_name, input_dim,
+                              att_type, hidden_dim, if_attention)
 
         self.criterion = nn.CrossEntropyLoss().cuda()
 
@@ -32,11 +35,11 @@ class LSTMLateFusion(BaseModel):
         negative_scores = torch.zeros_like(x_v)
         positive_scores = torch.zeros_like(x_f)
         fused_scores = torch.zeros_like(x_v)
-        
-        fused_scores[:,0] = (8*x_v[:,0] + 2*x_f[:,0])/10
-        fused_scores[:,1] = (8*x_v[:,1] + 2*x_f[:,1])/10
-        
-        return fused_scores, weights    
+
+        fused_scores[:, 0] = (8*x_v[:, 0] + 2*x_f[:, 0])/10
+        fused_scores[:, 1] = (8*x_v[:, 1] + 2*x_f[:, 1])/10
+
+        return fused_scores, weights
 
     def loss(self, outputs, targets):
         loss = self.criterion(outputs, targets)
